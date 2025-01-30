@@ -3,7 +3,10 @@ const cors = require('cors');
 const sequelize = require('./database');
 const productRoutes = require('./productRoutes');
 
+require('dotenv').config();
+
 const app = express();
+const PORT = process.env.PORT || 3002;
 
 app.use(cors());
 app.use(express.json());
@@ -16,7 +19,7 @@ const startServer = async () => {
     await sequelize.sync();
     
     app.listen(3002, () => {
-      console.log('Update Product Service running on http://localhost:3002');
+      console.log(`Update Product Service running on ${PORT}`);
     });
   } catch (error) {
     console.error('Error starting server:', error);
