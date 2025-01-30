@@ -1,6 +1,6 @@
 const express = require("express");
 const sequelize = require("./database");
-const productRoutes = require("./routes"); // Importa las rutas
+const productRoutes = require("./routes"); 
 
 const app = express();
 

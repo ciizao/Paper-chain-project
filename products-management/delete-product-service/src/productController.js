@@ -1,17 +1,16 @@
 const Product = require('./product');
 
-// Eliminar un producto por ID
 const deleteProduct = async (req, res) => {
   try {
     const { id } = req.params;
 
-    // Buscar el producto en la base de datos
+    // Search for the product in the database
     const product = await Product.findByPk(id);
     if (!product) {
       return res.status(404).json({ message: 'Product not found' });
     }
 
-    // Eliminar el producto
+    // Delete the product
     await product.destroy();
 
     res.status(200).json({ message: 'Product deleted successfully' });
