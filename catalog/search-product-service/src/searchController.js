@@ -11,7 +11,7 @@ const searchProducts = async (req, res) => {
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ query: "{ catalogProducts { name price category brand image_url } }" })
+      body: JSON.stringify({ query: "{ catalogProducts { id name price category brand image_url } }" })
     });
 
     console.log("Respuesta recibida de list-product-service:", response.status);

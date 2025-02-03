@@ -14,7 +14,7 @@ const resolvers = {
     catalogProducts: async () => {
       try {
         return await Product.findAll({
-          attributes: ['name', 'price', 'category', 'brand', 'image_url'],
+          attributes: ['id', 'name', 'price', 'category', 'brand', 'image_url'],
         });
       } catch (error) {
         console.error("Error fetching products:", error);
