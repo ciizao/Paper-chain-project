@@ -22,10 +22,18 @@ const Product = sequelize.define('Product', {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  brand: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
   stock: {
     type: DataTypes.INTEGER,
     defaultValue: 0,
   },
+  image_url: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+  }
 }, {
   tableName: 'Products',  
   timestamps: false,
