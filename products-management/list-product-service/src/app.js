@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 4000;
 
 const startServer = async () => {
   await server.start();
-  server.applyMiddleware({ app });
+  server.applyMiddleware({ app, path: "/products" });
 
   try {
     await sequelize.authenticate();

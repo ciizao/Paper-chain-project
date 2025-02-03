@@ -6,11 +6,14 @@ const typeDefs = gql`
     name: String
     price: Float
     category: String
+    brand:String
     stock: Int
+    image_url: String 
   }
 
   type Query {
-    products: [Product]  # Consulta para listar todos los productos
+    allProducts: [Product]  
+    catalogProducts: [Product] 
   }
 `;
 

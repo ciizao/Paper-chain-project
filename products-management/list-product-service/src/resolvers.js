@@ -2,10 +2,19 @@ const Product = require('./product');
 
 const resolvers = {
   Query: {
-    products: async () => {
+    allProducts: async () => {
+      try {
+        return await Product.findAll();
+      } catch (error) {
+        console.error("Error fetching all products:", error);
+        throw new Error("Error fetching all products");
+      }
+    },
+
+    catalogProducts: async () => {
       try {
         return await Product.findAll({
-          attributes: ['id', 'name', 'price', 'category', 'stock'],
+          attributes: ['name', 'price', 'category', 'brand', 'image_url'],
         });
       } catch (error) {
         console.error("Error fetching products:", error);

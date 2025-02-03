@@ -3,7 +3,7 @@ const Product = require('./product');
 const updateProduct = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, detail, price, category, stock } = req.body;  // ✅ Se agregó "detail"
+    const { name, detail, price, category, brand, stock, image_url } = req.body;
 
     // Search for the product in the database
     const product = await Product.findByPk(id);
@@ -12,7 +12,7 @@ const updateProduct = async (req, res) => {
     }
 
     // Update all fields
-    await product.update({ name, detail, price, category, stock });
+    await product.update({ name, detail, price, category, brand, stock, image_url });
 
     res.status(200).json({ message: 'Product updated successfully' });
   } catch (error) {
