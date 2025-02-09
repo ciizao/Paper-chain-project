@@ -19,5 +19,9 @@ async def login(credentials: LoginRequest, db: AsyncSession = Depends(get_db)):
     token = create_access_token(data={"user_id": user.id, "email": user.email})
     return {"access_token": token, "token_type": "bearer"}
 
+# This block ensures that the application runs on port 8006 when executed directly
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8006, reload=True)
 
 
