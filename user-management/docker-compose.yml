@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  registration-user-service:
+    image: ciizao/registration-user-service:latest
+    container_name: registration-user-service
+    ports:
+      - "8001:8001"
+    environment:
+      DATABASE_URL: ${REGISTRATION_DB_URL}
+      SECRET_KEY: ${JWT_SECRET_KEY}
+    networks:
+      - user-network
+
+  login-service:
+    image: ciizao/login-service:latest
+    container_name: login-service
+    ports:
+      - "8006:8006"
+    environment:
+      DATABASE_URL: ${LOGIN_DB_URL}
+      JWT_SECRET: ${JWT_SECRET_KEY}
+      JWT_ALGORITHM: ${JWT_ALGORITHM}
+      JWT_EXPIRATION_MINUTES: ${JWT_EXPIRATION_MINUTES}
+    networks:
+      - user-network
+
+  logout-service:
+    image: ciizao/logout-service:latest
+    container_name: logout-service
+    ports:
+      - "8002:8002"
+    environment:
+      DATABASE_URL: ${LOGOUT_DB_URL}
+      JWT_SECRET: ${JWT_SECRET_KEY}
+      JWT_ALGORITHM: ${JWT_ALGORITHM}
+      JWT_EXPIRATION_MINUTES: ${JWT_EXPIRATION_MINUTES}
+    networks:
+      - user-network
+
+networks:
+  user-network:
+    driver: bridge

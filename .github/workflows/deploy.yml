@@ -1,0 +1,46 @@
+name: Deploy User Management
+
+on:
+  push:
+    branches:
+      - QA
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v3
+
+      - name: Configurar SSH y desplegar en EC2
+        env:
+          REGISTRATION_DB_URL: ${{ secrets.REGISTRATION_DB_URL }}
+          LOGIN_DB_URL: ${{ secrets.LOGIN_DB_URL }}
+          LOGOUT_DB_URL: ${{ secrets.LOGOUT_DB_URL }}
+          JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
+          JWT_ALGORITHM: ${{ secrets.JWT_ALGORITHM }}
+          JWT_EXPIRATION_MINUTES: ${{ secrets.JWT_EXPIRATION_MINUTES }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          EC2_USER: "ec2-user"
+          EC2_HOST: "3.220.99.156"
+        run: |
+          echo "$SSH_PRIVATE_KEY" > private_key.pem
+          chmod 600 private_key.pem
+          ssh -o StrictHostKeyChecking=no -i private_key.pem $EC2_USER@$EC2_HOST << 'EOF'
+            cd /home/ec2-user
+            if [ ! -d "Paper-chain-project" ]; then
+              git clone https://github.com/ciizao/Paper-chain-project.git
+            fi
+            cd Paper-chain-project
+            git pull origin QA
+            cd user-management
+            export REGISTRATION_DB_URL=$REGISTRATION_DB_URL
+            export LOGIN_DB_URL=$LOGIN_DB_URL
+            export LOGOUT_DB_URL=$LOGOUT_DB_URL
+            export JWT_SECRET_KEY=$JWT_SECRET_KEY
+            export JWT_ALGORITHM=$JWT_ALGORITHM
+            export JWT_EXPIRATION_MINUTES=$JWT_EXPIRATION_MINUTES
+            bash deploy.sh
+          EOF
+
