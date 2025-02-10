@@ -13,22 +13,12 @@ jobs:
       - name: Clone repository
         uses: actions/checkout@v3
 
-      
-      - name: 🔍 Verificar Variables en GitHub Actions
-        run: |
-          echo " REGISTRATION_DB_URL is set" && test -n "${{ secrets.REGISTRATION_DB_URL }}" && echo " OK" || echo " MISSING"
-          echo " LOGIN_DB_URL is set" && test -n "${{ secrets.LOGIN_DB_URL }}" && echo " OK" || echo " MISSING"
-          echo " LOGOUT_DB_URL is set" && test -n "${{ secrets.LOGOUT_DB_URL }}" && echo " OK" || echo " MISSING"
-          echo " JWT_SECRET_KEY is set" && test -n "${{ secrets.JWT_SECRET_KEY }}" && echo " OK" || echo " MISSING"
-          echo " JWT_ALGORITHM is set" && test -n "${{ secrets.JWT_ALGORITHM }}" && echo " OK" || echo " MISSING"
-          echo " JWT_EXPIRATION_MINUTES is set" && test -n "${{ secrets.JWT_EXPIRATION_MINUTES }}" && echo " OK" || echo " MISSING"
-
       - name: Configurar SSH y desplegar en EC2
         env:
           REGISTRATION_DB_URL: ${{ secrets.REGISTRATION_DB_URL }}
           LOGIN_DB_URL: ${{ secrets.LOGIN_DB_URL }}
           LOGOUT_DB_URL: ${{ secrets.LOGOUT_DB_URL }}
-          JWT_SECRET_KEY: ${{ vars.JWT_SECRET_KEY }}
+          JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
           JWT_ALGORITHM: ${{ secrets.JWT_ALGORITHM }}
           JWT_EXPIRATION_MINUTES: ${{ secrets.JWT_EXPIRATION_MINUTES }}
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
