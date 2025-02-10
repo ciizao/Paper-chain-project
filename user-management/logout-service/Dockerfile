@@ -1,16 +1,32 @@
-FROM python:3.10-slim
+FROM python:3.11-slim
 
 WORKDIR /app
 
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    libpq-dev \
+    libffi-dev \
+    libssl-dev \
+    gcc \
+    python3-dev \
+    && rm -rf /var/lib/apt/lists/*
+
 COPY requirements.txt .
 
-RUN apt-get update && apt-get install -y gcc libpq-dev \
-    && pip install --no-cache-dir -r requirements.txt \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+RUN pip install --upgrade pip setuptools wheel
+
+RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
 EXPOSE 8002
 
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8002"]
+
+
+
+
+
+
+
+

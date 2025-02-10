@@ -9,9 +9,6 @@ load_dotenv(dotenv_path=env_path)
 DATABASE_URL = os.getenv("DATABASE_URL")
 SECRET_KEY = os.getenv("SECRET_KEY", "default_secret_key")
 
-#print("Loaded DATABASE_URL:", DATABASE_URL)
-#print("Loaded SECRET_KEY:", SECRET_KEY)
-
 if not DATABASE_URL:
     raise ValueError("DATABASE_URL is not set in the environment")
 
