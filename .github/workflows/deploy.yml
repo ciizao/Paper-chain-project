@@ -38,19 +38,17 @@ jobs:
           echo "$SSH_PRIVATE_KEY" > private_key.pem
           chmod 600 private_key.pem
           ssh -o StrictHostKeyChecking=no -i private_key.pem $EC2_USER@$EC2_HOST << 'EOF'
-            cd /home/ec2-user
-            if [ ! -d "Paper-chain-project" ]; then
-              git clone https://github.com/ciizao/Paper-chain-project.git
-            fi
-            cd Paper-chain-project
-            git pull origin QA
-            cd user-management
-            export REGISTRATION_DB_URL=$REGISTRATION_DB_URL
-            export LOGIN_DB_URL=$LOGIN_DB_URL
-            export LOGOUT_DB_URL=$LOGOUT_DB_URL
-            export JWT_SECRET_KEY=$JWT_SECRET_KEY
-            export JWT_ALGORITHM=$JWT_ALGORITHM
-            export JWT_EXPIRATION_MINUTES=$JWT_EXPIRATION_MINUTES
+            echo " Expor varible to EC2..."
+            echo "export REGISTRATION_DB_URL='$REGISTRATION_DB_URL'" >> ~/.bashrc
+            echo "export LOGIN_DB_URL='$LOGIN_DB_URL'" >> ~/.bashrc
+            echo "export LOGOUT_DB_URL='$LOGOUT_DB_URL'" >> ~/.bashrc
+            echo "export JWT_SECRET_KEY='$JWT_SECRET_KEY'" >> ~/.bashrc
+            echo "export JWT_ALGORITHM='$JWT_ALGORITHM'" >> ~/.bashrc
+            echo "export JWT_EXPIRATION_MINUTES='$JWT_EXPIRATION_MINUTES'" >> ~/.bashrc
+            source ~/.bashrc
+            env | grep DB_URL
+            env | grep JWT
+            cd /home/ec2-user/Paper-chain-project/user-management
             bash deploy.sh
           EOF
 
