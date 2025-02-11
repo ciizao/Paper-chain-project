@@ -36,6 +36,6 @@ jobs:
             export DB_NAME_PRODUCT="${DB_NAME_PRODUCT}"
 
             echo " Variables exportadas, ejecutando deploy.sh"
-            cd /home/ec2-user/Paper-chain-project/product_management
+            cd /home/ec2-user/Paper-chain-project/products_management
             bash deploy.sh
           EOF
