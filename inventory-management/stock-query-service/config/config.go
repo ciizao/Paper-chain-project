@@ -6,10 +6,9 @@ import (
 	"github.com/joho/godotenv"
 )
 
-// LoadEnv carga las variables del archivo .env
 func LoadEnv() {
 	err := godotenv.Load()
 	if err != nil {
-		log.Println("No .env file found, using system environment variables")
+		log.Println("No file found, using system environment variables")
 	}
 }

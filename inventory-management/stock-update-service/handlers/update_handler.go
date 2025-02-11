@@ -8,7 +8,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// UpdateStock permite modificar manualmente el stock de un producto
 func UpdateStock(c *gin.Context) {
 	productID := c.Param("product_id")
 	var request models.StockUpdateRequest
@@ -27,7 +26,6 @@ func UpdateStock(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Stock updated successfully"})
 }
 
-// RestoreStock permite restaurar stock cuando un pedido es cancelado
 func RestoreStock(c *gin.Context) {
 	var request models.StockRestoreRequest
 

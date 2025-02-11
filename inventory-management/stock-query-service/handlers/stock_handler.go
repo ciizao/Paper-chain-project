@@ -8,7 +8,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// GetStock consulta el stock de un producto en la base de datos
 func GetStock(c *gin.Context) {
 	productID := c.Param("product_id")
 	var product models.Product

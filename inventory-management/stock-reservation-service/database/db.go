@@ -11,7 +11,6 @@ import (
 
 var DB *sqlx.DB
 
-// ConnectDB establece la conexión con PostgreSQL
 func ConnectDB() {
 	var err error
 

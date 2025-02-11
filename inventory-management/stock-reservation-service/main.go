@@ -11,18 +11,15 @@ import (
 )
 
 func main() {
-	// Cargar variables de entorno
+
 	config.LoadEnv()
 
-	// Conectar a la base de datos
 	database.ConnectDB()
 	defer database.DB.Close()
 
-	// Configurar el router
 	router := gin.Default()
 	routes.SetupRoutes(router)
 
-	// Iniciar el servidor
-	log.Println("Starting stock-reservation-service on port 8083...")
+	log.Println("Starting stock-reservation-service on port 8083")
 	router.Run(":8083")
 }

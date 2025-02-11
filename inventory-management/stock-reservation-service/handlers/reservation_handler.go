@@ -8,7 +8,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// ReserveStock maneja la reserva de stock al hacer checkout
 func ReserveStock(c *gin.Context) {
 	var request models.StockReservationRequest
 
@@ -17,7 +16,6 @@ func ReserveStock(c *gin.Context) {
 		return
 	}
 
-	// Verificar si hay suficiente stock disponible
 	var availableStock int
 	err := database.DB.Get(&availableStock, `SELECT stock FROM "Products" WHERE id = $1`, request.ProductID)
 	if err != nil {
@@ -30,7 +28,6 @@ func ReserveStock(c *gin.Context) {
 		return
 	}
 
-	// Reservar stock
 	_, err = database.DB.Exec(`UPDATE "Products" SET stock = stock - $1 WHERE id = $2`, request.Quantity, request.ProductID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to reserve stock"})
