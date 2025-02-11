@@ -4,8 +4,7 @@ on:
   push:
     branches:
       - QA
-    paths:
-      - 'products_management/**'
+
 
 jobs:
   deploy:
@@ -17,7 +16,7 @@ jobs:
 
       - name: Configurar SSH y desplegar en EC2
         env:
-          DB_HOST_PRODUCT: ${{ secrets.DB_HOST_PRODUCT }}
+          DB_HOST_PRODUCT: ${{ vars.DB_HOST_PRODUCT }}
           DB_PORT_PRODUCT: ${{ secrets.DB_PORT_PRODUCT }}
           DB_USER_PRODUCT: ${{ secrets.DB_USER_PRODUCT }}
           DB_PASSWORD_PRODUCT: ${{ secrets.DB_PASSWORD_PRODUCT }}
