@@ -1,0 +1,39 @@
+name: Deploy Inventory Management
+
+on:
+  push:
+    branches:
+      - QA
+    paths:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v3
+
+      - name: Configurar SSH y desplegar en EC2
+        env:
+          DB_HOST_INVENTORY: ${{ vars.DB_HOST_INVENTORY }}
+          DB_PORT_INVENTORY: ${{ secrets.DB_PORT_INVENTORY }}
+          DB_USER_INVENTORY: ${{ secrets.DB_USER_INVENTORY }}
+          DB_PASSWORD_INVENTORY: ${{ secrets.DB_PASSWORD_INVENTORY }}
+          DB_NAME_INVENTORY: ${{ secrets.DB_NAME_INVENTORY }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          EC2_USER: "ec2-user"
+          EC2_HOST: "54.156.95.104"
+        run: |
+          echo "$SSH_PRIVATE_KEY" > private_key.pem
+          chmod 600 private_key.pem
+          ssh -o StrictHostKeyChecking=no -i private_key.pem $EC2_USER@$EC2_HOST << EOF
+            export DB_HOST_INVENTORY="${DB_HOST_INVENTORY}"
+            export DB_PORT_INVENTORY="${DB_PORT_INVENTORY}"
+            export DB_USER_INVENTORY="${DB_USER_INVENTORY}"
+            export DB_PASSWORD_INVENTORY="${DB_PASSWORD_INVENTORY}"
+            export DB_NAME_INVENTORY="${DB_NAME_INVENTORY}"
+
+            cd /home/ec2-user/Paper-chain-project/inventory-management
+            bash deploy.sh
+          EOF

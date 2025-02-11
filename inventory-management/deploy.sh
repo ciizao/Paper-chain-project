@@ -1,0 +1,18 @@
+#!/bin/bash
+
+docker-compose down
+
+docker system prune -af
+
+cat <<EOF > .env
+DB_HOST_INVENTORY=${DB_HOST_INVENTORY}
+DB_PORT_INVENTORY=${DB_PORT_INVENTORY}
+DB_USER_INVENTORY=${DB_USER_INVENTORY}
+DB_PASSWORD_INVENTORY=${DB_PASSWORD_INVENTORY}
+DB_NAME_INVENTORY=${DB_NAME_INVENTORY}
+EOF
+
+docker-compose pull
+
+docker-compose up -d
+
