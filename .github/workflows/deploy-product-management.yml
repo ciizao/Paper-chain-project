@@ -1,4 +1,4 @@
-name: Deploy Product Management
+name: Deploy Product Managements
 
 on:
   push:
