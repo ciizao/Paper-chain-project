@@ -1,16 +1,13 @@
-# Usar una imagen de Node.js como base
 FROM node:18
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm install
+RUN npm install --only=production
 
 COPY . .
 
-ARG PORT=4000
-ENV PORT=$PORT
-EXPOSE $PORT
+EXPOSE 4000
 
 CMD ["node", "src/app.js"]

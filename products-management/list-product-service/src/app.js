@@ -1,9 +1,9 @@
 require('dotenv').config();
 const express = require('express');
 const { ApolloServer } = require('apollo-server-express');
-const sequelize = require('./database');
-const typeDefs = require('./schema');
-const resolvers = require('./resolvers');
+const sequelize = require('./config/database');
+const typeDefs = require('./services/schema');
+const resolvers = require('./services/resolvers');
 
 const app = express();
 
