@@ -18,11 +18,11 @@ jobs:
       - name: Configurar SSH y desplegar en EC2
         env:
           DB_HOST_PRODUCT: ${{ vars.DB_HOST_PRODUCT }}
-          DB_PORT_PRODUCT: ${{ secrets.DB_PORT_PRODUCT }}
-          DB_USER_PRODUCT: ${{ secrets.DB_USER_PRODUCT }}
-          DB_PASSWORD_PRODUCT: ${{ secrets.DB_PASSWORD_PRODUCT }}
-          DB_NAME_PRODUCT: ${{ secrets.DB_NAME_PRODUCT }}
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          DB_PORT_PRODUCT: ${{ vars.DB_PORT_PRODUCT }}
+          DB_USER_PRODUCT: ${{ vars.DB_USER_PRODUCT }}
+          DB_PASSWORD_PRODUCT: ${{ vars.DB_PASSWORD_PRODUCT }}
+          DB_NAME_PRODUCT: ${{ vars.DB_NAME_PRODUCT }}
+          SSH_PRIVATE_KEY: ${{ vars.SSH_PRIVATE_KEY }}
           EC2_USER: "ec2-user"
           EC2_HOST: "18.234.5.75"
         run: |
