@@ -1,13 +1,14 @@
 FROM node:18
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm install
+RUN npm install --only=production
 
 COPY . .
 
-EXPOSE ${PORT}
+EXPOSE 3002
 
 CMD ["node", "src/app.js"]
+
