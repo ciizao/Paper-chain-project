@@ -1,0 +1,42 @@
+name: Deploy Product Management
+
+on:
+  push:
+    branches:
+      - QA
+    paths:
+      - 'products_management/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v3
+
+      - name: Configurar SSH y desplegar en EC2
+        env:
+          DB_HOST_PRODUCT: ${{ secrets.DB_HOST_PRODUCT }}
+          DB_PORT_PRODUCT: ${{ secrets.DB_PORT_PRODUCT }}
+          DB_USER_PRODUCT: ${{ secrets.DB_USER_PRODUCT }}
+          DB_PASSWORD_PRODUCT: ${{ secrets.DB_PASSWORD_PRODUCT }}
+          DB_NAME_PRODUCT: ${{ secrets.DB_NAME_PRODUCT }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          EC2_USER: "ec2-user"
+          EC2_HOST: "18.234.5.75"
+        run: |
+          echo "$SSH_PRIVATE_KEY" > private_key.pem
+          chmod 600 private_key.pem
+          ssh -o StrictHostKeyChecking=no -i private_key.pem $EC2_USER@$EC2_HOST << EOF
+            echo " Exportando variables en EC2..."
+            export DB_HOST_PRODUCT="${DB_HOST_PRODUCT}"
+            export DB_PORT_PRODUCT="${DB_PORT_PRODUCT}"
+            export DB_USER_PRODUCT="${DB_USER_PRODUCT}"
+            export DB_PASSWORD_PRODUCT="${DB_PASSWORD_PRODUCT}"
+            export DB_NAME_PRODUCT="${DB_NAME_PRODUCT}"
+
+            echo " Variables exportadas, ejecutando deploy.sh"
+            cd /home/ec2-user/Paper-chain-project/product_management
+            bash deploy.sh
+          EOF

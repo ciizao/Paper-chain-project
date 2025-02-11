@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  create-product-service:
+    image: ciizao/create-product-service:latest
+    container_name: create-product-service
+    ports:
+      - "3001:3001"
+    environment:
+      DB_HOST: ${DB_HOST_PRODUCT}
+      DB_PORT: ${DB_PORT_PRODUCT}
+      DB_USER: ${DB_USER_PRODUCT}
+      DB_PASSWORD: ${DB_PASSWORD_PRODUCT}
+      DB_NAME: ${DB_NAME_PRODUCT}
+    networks:
+      - product-network
+
+  list-product-service:
+    image: ciizao/list-product-service:latest
+    container_name: list-product-service
+    ports:
+      - "4000:4000"
+    environment:
+      DB_HOST: ${DB_HOST_PRODUCT}
+      DB_PORT: ${DB_PORT_PRODUCT}
+      DB_USER: ${DB_USER_PRODUCT}
+      DB_PASSWORD: ${DB_PASSWORD_PRODUCT}
+      DB_NAME: ${DB_NAME_PRODUCT}
+    networks:
+      - product-network
+
+  delete-product-service:
+    image: ciizao/delete-product-service:latest
+    container_name: delete-product-service
+    ports:
+      - "3003:3003"
+    environment:
+      DB_HOST: ${DB_HOST_PRODUCT}
+      DB_PORT: ${DB_PORT_PRODUCT}
+      DB_USER: ${DB_USER_PRODUCT}
+      DB_PASSWORD: ${DB_PASSWORD_PRODUCT}
+      DB_NAME: ${DB_NAME_PRODUCT}
+    networks:
+      - product-network
+
+  update-product-service:
+    image: ciizao/update-product-service:latest
+    container_name: update-product-service
+    ports:
+      - "3002:3002"
+    environment:
+      DB_HOST: ${DB_HOST_PRODUCT}
+      DB_PORT: ${DB_PORT_PRODUCT}
+      DB_USER: ${DB_USER_PRODUCT}
+      DB_PASSWORD: ${DB_PASSWORD_PRODUCT}
+      DB_NAME: ${DB_NAME_PRODUCT}
+    networks:
+      - product-network
+
+networks:
+  product-network:
+    driver: bridge
