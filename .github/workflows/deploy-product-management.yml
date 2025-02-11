@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - QA
-    paths:
-      - 'products-management/**'
 
 jobs:
   deploy:
@@ -22,7 +20,7 @@ jobs:
           DB_USER_PRODUCT: ${{ vars.DB_USER_PRODUCT }}
           DB_PASSWORD_PRODUCT: ${{ vars.DB_PASSWORD_PRODUCT }}
           DB_NAME_PRODUCT: ${{ vars.DB_NAME_PRODUCT }}
-          SSH_PRIVATE_KEY: ${{ vars.SSH_PRIVATE_KEY }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           EC2_USER: "ec2-user"
           EC2_HOST: "18.234.5.75"
         run: |
