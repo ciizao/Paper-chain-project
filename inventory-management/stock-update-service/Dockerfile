@@ -6,15 +6,17 @@ COPY . .
 
 RUN go mod tidy
 
-RUN go build -o stock-update-service
+RUN GOOS=linux GOARCH=amd64 go build -o stock-update-service
 
 FROM alpine:latest
 
-RUN apk --no-cache add ca-certificates
+RUN apk --no-cache add ca-certificates libc6-compat
 
 WORKDIR /root/
 
 COPY --from=builder /app/stock-update-service .
+
+RUN chmod +x stock-update-service
 
 EXPOSE 8084
 

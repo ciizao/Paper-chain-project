@@ -8,10 +8,8 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-// Rutas
 app.use("/api", cancelOrderRoutes);
 
-// Sincronizar base de datos
 sequelize.sync().then(() => {
   console.log("Database synchronized");
 });

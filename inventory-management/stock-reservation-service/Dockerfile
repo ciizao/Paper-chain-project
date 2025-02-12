@@ -1,6 +1,7 @@
 FROM golang:1.23 AS builder
 
 WORKDIR /app
+
 COPY . .
 
 RUN go mod tidy
@@ -18,6 +19,5 @@ COPY --from=builder /app/stock-reservation-service .
 RUN chmod +x /root/stock-reservation-service
 
 EXPOSE 8083
-
 
 CMD ["./stock-reservation-service"]

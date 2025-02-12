@@ -6,10 +6,9 @@ exports.cancelOrder = async (req, res) => {
     try {
         const { order_id } = req.params;
 
-        // 🔹 Asegurar que Sequelize cargue los productos correctamente
         const order = await Order.findOne({
             where: { id: order_id },
-            include: [{ model: OrderItem, as: "orderItems" }], // 🔹 Agregar "as: orderItems"
+            include: [{ model: OrderItem, as: "orderItems" }],
         });
 
         console.log("Order Retrieved:", order);
@@ -29,18 +28,15 @@ exports.cancelOrder = async (req, res) => {
         const orderItems = order.getDataValue("orderItems");
         console.log("OrderItems Retrieved:", orderItems);
 
-        // Validar si hay productos en el pedido
         if (!Array.isArray(orderItems) || orderItems.length === 0) {
             return res.status(400).json({ error: "No items found in the order to restore stock" });
         }
 
-        // Restaurar stock
         const stockRestored = await restoreStock(orderItems);
         if (!stockRestored) {
             return res.status(500).json({ error: "Failed to restore stock" });
         }
 
-        // Actualizar estado del pedido
         order.status = "Cancelled";
         await order.save();
 
