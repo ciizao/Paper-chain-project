@@ -13,3 +13,4 @@ app.use("/api", searchRoutes);
 app.listen(config.port, () => {
     console.log(`Search Product Service running on port ${config.port}`);
 });
+
