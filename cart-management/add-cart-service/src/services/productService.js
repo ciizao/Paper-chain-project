@@ -6,7 +6,7 @@ const getProductDetails = async (productId) => {
     const response = await axios.get(`${process.env.PRODUCT_DETAIL_SERVICE}/products/${productId}`);
     return response.data;
   } catch (error) {
-    console.error("❌ Error fetching product details:", error);
+    console.error("Error fetching product details:", error);
     return null;
   }
 };

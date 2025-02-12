@@ -14,7 +14,6 @@ const CartSchema = new mongoose.Schema({
   updated_at: { type: Date, default: Date.now },
 });
 
-// Mongoose will automatically create the "carts" collection if it does not exist
 const Cart = mongoose.model("Cart", CartSchema, "carts");
 
 module.exports = Cart;

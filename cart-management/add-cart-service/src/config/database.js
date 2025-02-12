@@ -5,10 +5,10 @@ const mongoURI = `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${
 
 const connectDB = async () => {
   try {
-    await mongoose.connect(mongoURI, {}); // Removed deprecated options
-    console.log("✅ MongoDB successfully connected");
+    await mongoose.connect(mongoURI, {});
+    console.log("MongoDB successfully connected");
   } catch (error) {
-    console.error("❌ Error connecting to MongoDB:", error);
+    console.error("Error connecting to MongoDB:", error);
     process.exit(1);
   }
 };

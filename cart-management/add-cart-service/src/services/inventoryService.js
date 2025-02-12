@@ -6,7 +6,7 @@ const checkStock = async (productId) => {
     const response = await axios.get(`${process.env.INVENTORY_SERVICE}/stock/${productId}`);
     return response.data.stock_available;
   } catch (error) {
-    console.error("❌ Error checking stock:", error);
+    console.error("Error checking stock:", error);
     return null;
   }
 };

@@ -1,10 +1,12 @@
 const express = require("express");
-const { addToCart } = require("../controllers/cartController"); // ✅ Verifica esta línea
+const { addToCart, getCartByUser, deleteCartByUser } = require("../controllers/cartController"); // ✅ Verifica esta línea
 const { authenticateUser } = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
-router.post("/cart/add", authenticateUser, addToCart); // ✅ Aquí usa `addToCart` correctamente
+router.post("/cart/add", authenticateUser, addToCart);
+router.get("/cart/user/:user_id", authenticateUser, getCartByUser);
+router.delete("/cart/user/:user_id", authenticateUser, deleteCartByUser);
 
 module.exports = router;
 
