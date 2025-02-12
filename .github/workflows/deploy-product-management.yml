@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - QA
+    paths:
 
 jobs:
   deploy:
