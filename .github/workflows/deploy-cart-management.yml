@@ -13,7 +13,7 @@ jobs:
       - name: Clone repository
         uses: actions/checkout@v3
 
-      - name: Configurar SSH y desplegar en EC2
+      - name: Configurar SSH y desplegar EC2
         env:
           DB_HOST_CART: ${{ vars.DB_HOST_CART }}
           DB_PORT_CART: ${{ vars.DB_PORT_CART }}
