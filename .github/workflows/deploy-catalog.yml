@@ -31,6 +31,10 @@ jobs:
           echo "$SSH_PRIVATE_KEY" > private_key.pem
           chmod 600 private_key.pem
           ssh -o StrictHostKeyChecking=no -i private_key.pem $EC2_USER@$EC2_HOST << EOF
+
+            cd /home/ubuntu/Paper-chain-project
+            git pull origin QA
+                      
             export DB_CONNECTION_CATALOG="${DB_CONNECTION_CATALOG}"
             export DB_HOST_CATALOG="${DB_HOST_CATALOG}"
             export DB_PORT_CATALOG="${DB_PORT_CATALOG}"
