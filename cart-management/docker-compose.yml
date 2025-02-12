@@ -19,8 +19,8 @@ services:
       - cart-network
 
   checkout-service:
-    image: ciizao/checkout-service:latest
-    container_name: checkout-service
+    image: ciizao/chekout-service:latest
+    container_name: chekout-service
     ports:
       - "8087:8087"
     environment:
