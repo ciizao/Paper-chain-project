@@ -4,8 +4,17 @@ from app.schemas import LoginRequest, LoginResponse
 from app.services.auth_service import authenticate_user
 from app.db import get_db
 from app.utils.security import create_access_token
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.post("/login", response_model=LoginResponse)
 async def login(credentials: LoginRequest, db: AsyncSession = Depends(get_db)):
