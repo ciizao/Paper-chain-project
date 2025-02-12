@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - QA
+    paths:
+      - 'user-management/**' 
 
 jobs:
   deploy:

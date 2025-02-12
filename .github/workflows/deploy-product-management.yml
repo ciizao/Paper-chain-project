@@ -26,6 +26,7 @@ jobs:
         run: |
           echo "$SSH_PRIVATE_KEY" > private_key.pem
           chmod 600 private_key.pem
+          ssh -o StrictHostKeyChecking=no -i private_key.pem $EC2_USER@$EC2_HOST << EOF
           
             cd /home/ec2-user/Paper-chain-project
             git pull origin QA
