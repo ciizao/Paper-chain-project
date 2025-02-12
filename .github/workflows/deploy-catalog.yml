@@ -1,0 +1,45 @@
+name: Deploy Catalog
+
+on:
+  push:
+    branches:
+      - QA  
+
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v3
+
+      - name: Configurar SSH y desplegar en EC2
+        env:
+          DB_CONNECTION_CATALOG: ${{ vars.DB_CONNECTION_CATALOG }}
+          DB_HOST_CATALOG: ${{ vars.DB_HOST_CATALOG }}
+          DB_PORT_CATALOG: ${{ vars.DB_PORT_CATALOG }}
+          DB_DATABASE_CATALOG: ${{ vars.DB_DATABASE_CATALOG }}
+          DB_USERNAME_CATALOG: ${{ vars.DB_USERNAME_CATALOG }}
+          DB_PASSWORD_CATALOG: ${{ vars.DB_PASSWORD_CATALOG }}
+          APP_DEBUG_CATALOG: ${{ vars.APP_DEBUG_CATALOG }}
+          LIST_PRODUCT_SERVICE_GRAPHQL: ${{ vars.LIST_PRODUCT_SERVICE_GRAPHQL }}
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
+          EC2_USER: "ubuntu"
+          EC2_HOST: "34.200.95.242"
+        run: |
+          echo "$SSH_PRIVATE_KEY" > private_key.pem
+          chmod 600 private_key.pem
+          ssh -o StrictHostKeyChecking=no -i private_key.pem $EC2_USER@$EC2_HOST << EOF
+            export DB_CONNECTION_CATALOG="${DB_CONNECTION_CATALOG}"
+            export DB_HOST_CATALOG="${DB_HOST_CATALOG}"
+            export DB_PORT_CATALOG="${DB_PORT_CATALOG}"
+            export DB_DATABASE_CATALOG="${DB_DATABASE_CATALOG}"
+            export DB_USERNAME_CATALOG="${DB_USERNAME_CATALOG}"
+            export DB_PASSWORD_CATALOG="${DB_PASSWORD_CATALOG}"
+            export APP_DEBUG_CATALOG="${APP_DEBUG_CATALOG}"
+            export LIST_PRODUCT_SERVICE_GRAPHQL="${LIST_PRODUCT_SERVICE_GRAPHQL}"
+
+            cd /home/ubuntu/Paper-chain-project/catalog
+            bash deploy.sh
+          EOF
