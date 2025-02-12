@@ -3,7 +3,6 @@ require("dotenv").config();
 
 const STOCK_UPDATE_URL = process.env.STOCK_UPDATE_URL;
 
-// Función para restaurar stock
 async function restoreStock(orderItems) {
     try {
         if (!Array.isArray(orderItems)) {

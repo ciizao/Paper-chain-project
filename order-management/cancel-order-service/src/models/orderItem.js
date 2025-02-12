@@ -28,7 +28,7 @@ const OrderItem = sequelize.define("OrderItem", {
     allowNull: false,
   },
 }, {
-  tableName: "orderItems"  // 🔹 Especificamos el nombre exacto de la tabla
+  tableName: "orderItems"
 });
 
 module.exports = OrderItem;

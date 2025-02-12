@@ -22,10 +22,9 @@ const Order = sequelize.define("Order", {
     allowNull: false,
   },
 }, {
-  tableName: "orders"  // 🔹 Especificamos el nombre exacto de la tabla
+  tableName: "orders"
 });
 
-// 🔹 Agregamos `as: "orderItems"` para que Sequelize no pluralice automáticamente
 Order.hasMany(OrderItem, { foreignKey: "order_id", onDelete: "CASCADE", as: "orderItems" });
 OrderItem.belongsTo(Order, { foreignKey: "order_id", as: "order" });
 

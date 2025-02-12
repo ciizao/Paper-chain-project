@@ -1,7 +1,6 @@
 const Order = require("../models/order");
 const OrderItem = require("../models/orderItem");
 
-// Obtener el detalle de un pedido por su ID
 exports.getOrderById = async (req, res) => {
     try {
         const { order_id } = req.params;
@@ -22,7 +21,7 @@ exports.getOrderById = async (req, res) => {
     }
 };
 
-// Listar todos los pedidos de un usuario
+
 exports.getOrdersByUser = async (req, res) => {
     try {
         const { user_id } = req.params;
