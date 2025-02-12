@@ -11,13 +11,11 @@ const addToCart = async (req, res) => {
   }
 
   try {
-    // Obtener detalles del producto
     const product = await getProductDetails(product_id);
     if (!product) {
       return res.status(404).json({ error: "Product not found" });
     }
 
-    // Verificar stock
     const stockAvailable = await checkStock(product_id);
     if (stockAvailable < quantity) {
       return res.status(400).json({ error: "Insufficient stock" });
@@ -43,7 +41,6 @@ const addToCart = async (req, res) => {
     cart.total_price = cart.items.reduce((total, item) => total + item.price * item.quantity, 0);
     cart.updated_at = new Date();
 
-    // Guardar en MongoDB
     await cart.save();
     res.json(cart);
   } catch (error) {

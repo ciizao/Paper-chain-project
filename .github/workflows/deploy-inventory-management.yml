@@ -3,7 +3,7 @@ name: Deploy Inventory Management
 on:
   push:
     branches:
-      - QA  
+      - QA
 
 jobs:
   deploy:

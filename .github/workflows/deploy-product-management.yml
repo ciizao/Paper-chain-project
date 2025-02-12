@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - QA
-    paths:
-      - 'products-management/**' 
 
 jobs:
   deploy:
