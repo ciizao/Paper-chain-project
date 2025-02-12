@@ -1,0 +1,50 @@
+name: Deploy Order Management
+
+on:
+  push:
+    branches:
+      - QA  
+    paths:
+      - 'order-management/**' 
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v3
+
+      - name: Configurar SSH y desplegar en EC2
+        env:
+          DB_HOST_ORDER: ${{ vars.DB_HOST_ORDER }}
+          DB_PORT_ORDER: ${{ vars.DB_PORT_ORDER }}
+          DB_USER_ORDER: ${{ vars.DB_USER_ORDER }}
+          DB_PASSWORD_ORDER: ${{ vars.DB_PASSWORD_ORDER }}
+          DB_NAME_ORDER: ${{ vars.DB_NAME_ORDER }}
+          STOCK_QUERY_SERVICE_URL: ${{ vars.STOCK_QUERY_SERVICE_URL }}
+          STOCK_RESERVATION_SERVICE_URL: ${{ vars.STOCK_RESERVATION_SERVICE_URL }}
+          STOCK_UPDATE_URL: ${{ vars.STOCK_UPDATE_URL }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          EC2_USER: "ec2-user"
+          EC2_HOST: "52.23.109.228"
+        run: |
+          echo "$SSH_PRIVATE_KEY" > private_key.pem
+          chmod 600 private_key.pem
+          ssh -o StrictHostKeyChecking=no -i private_key.pem $EC2_USER@$EC2_HOST << EOF
+
+            cd /home/ec2-user/Paper-chain-project
+            git pull origin QA
+
+            export DB_HOST_ORDER="${DB_HOST_ORDER}"
+            export DB_PORT_ORDER="${DB_PORT_ORDER}"
+            export DB_USER_ORDER="${DB_USER_ORDER}"
+            export DB_PASSWORD_ORDER="${DB_PASSWORD_ORDER}"
+            export DB_NAME_ORDER="${DB_NAME_ORDER}"
+            export STOCK_QUERY_SERVICE_URL="${STOCK_QUERY_SERVICE_URL}"
+            export STOCK_RESERVATION_SERVICE_URL="${STOCK_RESERVATION_SERVICE_URL}"
+            export STOCK_UPDATE_URL="${STOCK_UPDATE_URL}"
+
+            cd /home/ec2-user/Paper-chain-project/order-management
+            bash deploy.sh
+          EOF

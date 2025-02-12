@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  create-order-service:
+    image: ciizao/create-order-service:latest
+    container_name: create-order-service
+    ports:
+      - "5001:5001"
+    environment:
+      DB_HOST: ${DB_HOST_ORDER}
+      DB_PORT: ${DB_PORT_ORDER}
+      DB_USER: ${DB_USER_ORDER}
+      DB_PASSWORD: ${DB_PASSWORD_ORDER}
+      DB_NAME: ${DB_NAME_ORDER}
+      STOCK_QUERY_SERVICE_URL: ${STOCK_QUERY_SERVICE_URL}
+      STOCK_RESERVATION_SERVICE_URL: ${STOCK_RESERVATION_SERVICE_URL}
+    networks:
+      - order-network
+
+  get-order-service:
+    image: ciizao/get-order-service:latest
+    container_name: get-order-service
+    ports:
+      - "5002:5002"
+    environment:
+      DB_HOST: ${DB_HOST_ORDER}
+      DB_PORT: ${DB_PORT_ORDER}
+      DB_USER: ${DB_USER_ORDER}
+      DB_PASSWORD: ${DB_PASSWORD_ORDER}
+      DB_NAME: ${DB_NAME_ORDER}
+    networks:
+      - order-network
+
+  cancel-order-service:
+    image: ciizao/cancel-order-service:latest
+    container_name: cancel-order-service
+    ports:
+      - "5003:5003"
+    environment:
+      DB_HOST: ${DB_HOST_ORDER}
+      DB_PORT: ${DB_PORT_ORDER}
+      DB_USER: ${DB_USER_ORDER}
+      DB_PASSWORD: ${DB_PASSWORD_ORDER}
+      DB_NAME: ${DB_NAME_ORDER}
+      STOCK_UPDATE_URL: ${STOCK_UPDATE_URL}
+    networks:
+      - order-network
+
+networks:
+  order-network:
+    driver: bridge
