@@ -30,7 +30,10 @@ jobs:
           echo "$SSH_PRIVATE_KEY" > private_key.pem
           chmod 600 private_key.pem
           ssh -o StrictHostKeyChecking=no -i private_key.pem $EC2_USER@$EC2_HOST << EOF
-            echo " Exportando variables en EC2..."
+
+            cd /home/ec2-user/Paper-chain-project
+            git pull origin QA
+
             export REGISTRATION_DB_URL="${REGISTRATION_DB_URL}"
             export LOGIN_DB_URL="${LOGIN_DB_URL}"
             export LOGOUT_DB_URL="${LOGOUT_DB_URL}"
@@ -38,7 +41,6 @@ jobs:
             export JWT_ALGORITHM="${JWT_ALGORITHM}"
             export JWT_EXPIRATION_MINUTES="${JWT_EXPIRATION_MINUTES}"
 
-            echo " Variables exportadas, ejecutando deploy.sh"
             cd /home/ec2-user/Paper-chain-project/user-management
             bash deploy.sh
           EOF
