@@ -1,0 +1,52 @@
+name: Deploy Cart Management
+
+on:
+  push:
+    branches:
+      - QA  
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v3
+
+      - name: Configurar SSH y desplegar en EC2
+        env:
+          DB_HOST_CART: ${{ vars.DB_HOST_CART }}
+          DB_PORT_CART: ${{ vars.DB_PORT_CART }}
+          DB_USER_CART: ${{ vars.DB_USER_CART }}
+          DB_PASSWORD_CART: ${{ vars.DB_PASSWORD_CART }}
+          DB_AUTH_SOURCE_CART: ${{ vars.DB_AUTH_SOURCE_CART }}
+          PRODUCT_DETAIL_SERVICE: ${{ vars.PRODUCT_DETAIL_SERVICE }}
+          INVENTORY_SERVICE: ${{ vars.INVENTORY_SERVICE }}
+          CART_SERVICE_URL: ${{ vars.CART_SERVICE_URL }}
+          ORDER_SERVICE_URL: ${{ vars.ORDER_SERVICE_URL }}
+          JWT_SECRET_KEY: ${{ vars.JWT_SECRET_KEY }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          EC2_USER: "ubuntu"
+          EC2_HOST: "3.213.45.98"
+        run: |
+          echo "$SSH_PRIVATE_KEY" > private_key.pem
+          chmod 600 private_key.pem
+          ssh -o StrictHostKeyChecking=no -i private_key.pem $EC2_USER@$EC2_HOST << EOF
+
+            cd /home/ubuntu/Paper-chain-project
+            git pull origin QA
+
+            export DB_HOST_CART="${DB_HOST_CART}"
+            export DB_PORT_CART="${DB_PORT_CART}"
+            export DB_USER_CART="${DB_USER_CART}"
+            export DB_PASSWORD_CART="${DB_PASSWORD_CART}"
+            export DB_AUTH_SOURCE_CART="${DB_AUTH_SOURCE_CART}"
+            export PRODUCT_DETAIL_SERVICE="${PRODUCT_DETAIL_SERVICE}"
+            export INVENTORY_SERVICE="${INVENTORY_SERVICE}"
+            export CART_SERVICE_URL="${CART_SERVICE_URL}"
+            export ORDER_SERVICE_URL="${ORDER_SERVICE_URL}"
+            export JWT_SECRET_KEY="${JWT_SECRET_KEY}"
+
+            cd /home/ubuntu/Paper-chain-project/cart-management
+            bash deploy.sh
+          EOF

@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  add-cart-service:
+    image: ciizao/add-cart-service:latest
+    container_name: add-cart-service
+    ports:
+      - "8086:8086"
+    environment:
+      DB_HOST: ${DB_HOST_CART}
+      DB_PORT: ${DB_PORT_CART}
+      DB_USER: ${DB_USER_CART}
+      DB_PASSWORD: ${DB_PASSWORD_CART}
+      DB_AUTH_SOURCE: ${DB_AUTH_SOURCE_CART}
+      PRODUCT_DETAIL_SERVICE: ${PRODUCT_DETAIL_SERVICE}
+      INVENTORY_SERVICE: ${INVENTORY_SERVICE}
+      JWT_SECRET: ${JWT_SECRET_KEY}
+    networks:
+      - cart-network
+
+  checkout-service:
+    image: ciizao/checkout-service:latest
+    container_name: checkout-service
+    ports:
+      - "8087:8087"
+    environment:
+      CART_SERVICE_URL: ${CART_SERVICE_URL}
+      ORDER_SERVICE_URL: ${ORDER_SERVICE_URL}
+      JWT_SECRET: ${JWT_SECRET_KEY}
+    networks:
+      - cart-network
+
+networks:
+  cart-network:
+    driver: bridge
