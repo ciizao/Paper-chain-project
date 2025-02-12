@@ -8,6 +8,7 @@ const resolvers = require('./services/resolvers');
 
 const app = express();
 
+
 app.use(cors());
 
 const server = new ApolloServer({ typeDefs, resolvers });
