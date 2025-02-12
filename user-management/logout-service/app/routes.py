@@ -23,3 +23,14 @@ async def logout(authorization: str = Header(...), db: AsyncSession = Depends(ge
     logger.info("User logged out successfully")
     return {"message": "Logout successful"}
 
+@router.post("/validate-token", summary="Validate JWT token", tags=["Auth"])
+async def validate_token(authorization: str = Header(...), db: AsyncSession = Depends(get_db)):
+    if not authorization.startswith("Bearer "):
+        raise HTTPException(status_code=400, detail="Invalid Authorization header format")
+
+    token = authorization.split(" ")[1]
+
+    if not await is_token_valid(token, db):
+        raise HTTPException(status_code=401, detail="Invalid or expired token")
+
+    return {"message": "Token is valid"}
