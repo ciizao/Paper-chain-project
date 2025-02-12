@@ -3,8 +3,9 @@ name: Deploy Inventory Management
 on:
   push:
     branches:
-      - QA
-      
+      - QA  
+    paths:
+      - 'inventory-management/**' 
 
 jobs:
   deploy:
@@ -17,10 +18,10 @@ jobs:
       - name: Configurar SSH y desplegar en EC2
         env:
           DB_HOST_INVENTORY: ${{ vars.DB_HOST_INVENTORY }}
-          DB_PORT_INVENTORY: ${{ secrets.DB_PORT_INVENTORY }}
-          DB_USER_INVENTORY: ${{ secrets.DB_USER_INVENTORY }}
-          DB_PASSWORD_INVENTORY: ${{ secrets.DB_PASSWORD_INVENTORY }}
-          DB_NAME_INVENTORY: ${{ secrets.DB_NAME_INVENTORY }}
+          DB_PORT_INVENTORY: ${{ vars.DB_PORT_INVENTORY }}
+          DB_USER_INVENTORY: ${{ vars.DB_USER_INVENTORY }}
+          DB_PASSWORD_INVENTORY: ${{ vars.DB_PASSWORD_INVENTORY }}
+          DB_NAME_INVENTORY: ${{ vars.DB_NAME_INVENTORY }}
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           EC2_USER: "ec2-user"
           EC2_HOST: "54.156.95.104"

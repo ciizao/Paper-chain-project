@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  get-product-detail-service:
+    image: ciizao/get-product-detail-service:latest
+    container_name: get-product-detail-service
+    ports:
+      - "8000:8000"
+    environment:
+      DB_CONNECTION: ${DB_CONNECTION_CATALOG}
+      DB_HOST: ${DB_HOST_CATALOG}
+      DB_PORT: ${DB_PORT_CATALOG}
+      DB_DATABASE: ${DB_DATABASE_CATALOG}
+      DB_USERNAME: ${DB_USERNAME_CATALOG}
+      DB_PASSWORD: ${DB_PASSWORD_CATALOG}
+      APP_DEBUG: ${APP_DEBUG_CATALOG}
+    networks:
+      - catalog-network
+
+  search-product-service:
+    image: ciizao/search-product-service:latest
+    container_name: search-product-service
+    ports:
+      - "8005:8005"
+    environment:
+      LIST_PRODUCT_SERVICE_GRAPHQL: ${LIST_PRODUCT_SERVICE_GRAPHQL}
+    networks:
+      - catalog-network
+
+networks:
+  catalog-network:
+    driver: bridge

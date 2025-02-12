@@ -5,6 +5,7 @@ on:
     branches:
       - QA
     paths:
+      - 'products-management/**' 
 
 jobs:
   deploy:
