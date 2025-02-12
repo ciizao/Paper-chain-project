@@ -3,6 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from pydantic import BaseModel
 from app import models, db, services
 from app.db import engine, get_db
+from fastapi.middleware.cors import CORSMiddleware
 
 # create table
 async def create_tables():
@@ -10,6 +11,14 @@ async def create_tables():
         await conn.run_sync(models.Base.metadata.create_all)
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://34.196.50.79"],  
+    allow_credentials=True,
+    allow_methods=["*"],  
+    allow_headers=["*"],  
+)
 
 @app.on_event("startup")
 async def startup():
