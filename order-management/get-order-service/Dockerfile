@@ -11,4 +11,3 @@ COPY . .
 EXPOSE 5002
 
 CMD ["node", "src/server.js"]
-
