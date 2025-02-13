@@ -42,7 +42,7 @@ const addToCart = async (req, res) => {
     cart.updated_at = new Date();
 
     await cart.save();
-    res.json(cart);
+    res.json({ success: true, cart });
   } catch (error) {
     console.error("Error adding product to cart:", error);
     res.status(500).json({ error: "Internal server error" });
