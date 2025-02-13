@@ -12,3 +12,4 @@ EXPOSE 3002
 
 CMD ["node", "src/app.js"]
 
+

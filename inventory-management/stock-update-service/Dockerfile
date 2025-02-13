@@ -21,3 +21,4 @@ RUN chmod +x stock-update-service
 EXPOSE 8084
 
 CMD ["./stock-update-service"]
+
