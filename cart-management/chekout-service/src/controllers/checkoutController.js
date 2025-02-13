@@ -29,7 +29,7 @@ const processCheckout = async (req, res) => {
         
         await cartService.clearCart(userId, token);
 
-        res.status(200).json({ message: "Checkout successful", order: orderResponse });
+        res.status(200).json({ success: true, message: "Checkout successful", order: orderResponse });
 
     } catch (error) {
         console.error("Checkout Error:", error);
