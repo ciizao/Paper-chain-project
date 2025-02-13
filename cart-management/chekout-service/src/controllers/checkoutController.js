@@ -23,13 +23,20 @@ const processCheckout = async (req, res) => {
         };
 
         const orderResponse = await orderService.createOrder(orderData, token);
-        if (!orderResponse.success) {
-            return res.status(500).json({ message: "Order creation failed" });
+
+        if (!orderResponse || orderResponse.length === 0) {
+            return res.status(500).json({ success: false, message: "Order creation failed" });
         }
         
+        const order = orderResponse[0];
+
         await cartService.clearCart(userId, token);
 
-        res.status(200).json({ success: true, message: "Checkout successful", order: orderResponse });
+        res.status(200).json({
+            success: true,
+            message: "Checkout successful",
+            order: order
+        });
 
     } catch (error) {
         console.error("Checkout Error:", error);
