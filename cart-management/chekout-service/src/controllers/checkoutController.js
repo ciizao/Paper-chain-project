@@ -24,18 +24,17 @@ const processCheckout = async (req, res) => {
 
         const orderResponse = await orderService.createOrder(orderData, token);
 
-        if (!orderResponse || orderResponse.length === 0) {
+        if (!orderResponse || !orderResponse.order_id) {
+            console.error(" No write `order_id` the Order-Service");
             return res.status(500).json({ success: false, message: "Order creation failed" });
         }
-        
-        const order = orderResponse[0];
 
         await cartService.clearCart(userId, token);
 
         res.status(200).json({
             success: true,
             message: "Checkout successful",
-            order: order
+            order_id: orderResponse.order_id
         });
 
     } catch (error) {
