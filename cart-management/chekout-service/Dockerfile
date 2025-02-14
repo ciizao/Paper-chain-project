@@ -11,4 +11,3 @@ COPY . .
 EXPOSE 8087
 
 CMD ["node", "src/server.js"]
-
