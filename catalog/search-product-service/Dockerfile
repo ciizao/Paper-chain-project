@@ -11,4 +11,3 @@ COPY . .
 EXPOSE 8005
 
 CMD ["node", "src/app.js"]
-
