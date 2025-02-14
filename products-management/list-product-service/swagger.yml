@@ -1,0 +1,60 @@
+openapi: 3.0.0
+info:
+  title: List Product API
+  description: API for managing products using GraphQL.
+  version: 1.0.0
+servers:
+  - url: http://18.234.5.75:4000/products
+    description: Deploy EC2
+paths:
+  /:
+    get:
+      summary: Fetch all products
+      operationId: getAllProducts
+      responses:
+        '200':
+          description: Successfully fetched all products
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Product'
+        '500':
+          description: Internal Server Error
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "12345"
+        name:
+          type: string
+          example: "Notebook"
+        price:
+          type: number
+          example: 10.99
+        category:
+          type: string
+          example: "Office Supplies"
+        brand:
+          type: string
+          example: "Stationery Co."
+        stock:
+          type: integer
+          example: 50
+        image_url:
+          type: string
+          example: "https://image.com/product.jpg"
+
+  responses:
+    NotFound:
+      description: Resource not found
+    ServerError:
+      description: Internal Server Error

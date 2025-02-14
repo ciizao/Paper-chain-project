@@ -1,0 +1,72 @@
+openapi: 3.0.0
+info:
+  title: Checkout Service API
+  description: API for processing user checkout in an e-commerce system.
+  version: 1.0.0
+servers:
+  - url: http://3.213.45.98:8087
+    description: Deploy EC2
+
+paths:
+  /checkout:
+    post:
+      summary: Process user checkout
+      description: Retrieves cart items, creates an order, and clears the cart.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Checkout successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Checkout successful"
+                  order_id:
+                    type: string
+                    example: "12345abcde"
+        '400':
+          description: Cart is empty
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Cart is empty"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Unauthorized: No token provided"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Checkout process failed"
+                  error:
+                    type: string
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

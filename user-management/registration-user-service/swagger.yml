@@ -1,0 +1,56 @@
+openapi: 3.0.0
+info:
+  title: User Registration API
+  description: API for registering users with unique email validation and secure password hashing.
+  version: 1.0.0
+servers:
+  - url: http://3.220.99.156:8001
+    description: Development on EC2
+paths:
+  /register:
+    post:
+      summary: Register a new user
+      description: Creates a new user account with a hashed password and ensures email uniqueness.
+      operationId: registerUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "Cris"
+                email:
+                  type: string
+                  format: email
+                  example: "cris@email.com"
+                password:
+                  type: string
+                  format: password
+                  example: "password"
+      responses:
+        "200":
+          description: User successfully registered
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "User registered successfully"
+                  user_id:
+                    type: string
+                    format: uuid
+        "400":
+          description: Email already registered
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    example: "Email already registered"

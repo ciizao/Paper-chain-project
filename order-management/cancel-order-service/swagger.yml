@@ -1,0 +1,59 @@
+openapi: 3.0.0
+info:
+  title: Cancel Order API
+  description: API for handling order cancellations and restoring stock
+  version: 1.0.0
+servers:
+  - url: http://52.23.109.228:5003/api
+    description: Deploy EC2
+paths:
+  /order/cancel/{order_id}:
+    put:
+      summary: Cancel an order
+      description: Cancels an order and restores stock for the items in the order.
+      parameters:
+        - name: order_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Unique ID of the order to be canceled
+      responses:
+        '200':
+          description: Order cancelled and stock restored successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  order:
+                    type: object
+        '400':
+          description: Bad request (e.g., order already canceled or completed)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        '404':
+          description: Order not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string

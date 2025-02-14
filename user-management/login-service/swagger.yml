@@ -1,0 +1,51 @@
+openapi: 3.0.0
+info:
+  title: Login Service API
+  description: A FastAPI-based authentication microservice using JWT.
+  version: 1.0.0
+servers:
+  - url: http://3.220.99.156:8006
+    description: Development on EC2
+paths:
+  /login:
+    post:
+      summary: Authenticate user
+      description: Validate user credentials and return a JWT token if valid.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Successful authentication
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        '401':
+          description: Invalid credentials
+components:
+  schemas:
+    LoginRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          example: cris@email.com
+        password:
+          type: string
+          example: password
+      required:
+        - email
+        - password
+    LoginResponse:
+      type: object
+      properties:
+        access_token:
+          type: string
+          example: "jwt_token"
+        token_type:
+          type: string
+          example: "bearer"

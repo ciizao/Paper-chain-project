@@ -1,0 +1,46 @@
+openapi: 3.0.0
+info:
+  title: Logout Service
+  description: API for invalidating JWT tokens during user logout.
+  version: 1.0.0
+servers:
+  - url: http://3.220.99.156:8002
+    description: Deploy in EC2
+
+paths:
+  /logout:
+    post:
+      summary: Invalidate a JWT token
+      description: Logs out a user by invalidating their JWT token.
+      tags:
+        - Logout
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Logout successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Logout successful"
+        '400':
+          description: Invalid or expired token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    example: "Invalid or expired token"
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

@@ -1,0 +1,75 @@
+openapi: 3.0.0
+info:
+  title: Stock Reservation Service
+  description: API for reserving stock of products.
+  version: 1.0.0
+servers:
+  - url: http://54.156.95.104:8083
+    description: Deploy EC2 
+paths:
+  /reserve-stock:
+    post:
+      summary: Reserve stock for a product
+      description: Deducts stock from the database if available.
+      operationId: reserveStock
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StockReservationRequest'
+      responses:
+        '200':
+          description: Stock reserved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Stock reserved successfully"
+        '404':
+          description: Product not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Product not found"
+        '409':
+          description: Not enough stock available
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Not enough stock available"
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Failed to reserve stock"
+components:
+  schemas:
+    StockReservationRequest:
+      type: object
+      required:
+        - product_id
+        - quantity
+      properties:
+        product_id:
+          type: string
+          example: "123"
+        quantity:
+          type: integer
+          example: 2

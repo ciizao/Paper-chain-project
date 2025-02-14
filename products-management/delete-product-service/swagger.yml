@@ -1,0 +1,52 @@
+openapi: 3.0.0
+info:
+  title: Delete Product Service
+  description: API for deleting products from the inventory
+  version: 1.0.0
+servers:
+  - url: http://18.234.5.75:3003/api
+    description: Deploy EC2
+
+paths:
+  /products/{id}:
+    delete:
+      summary: Delete a product by ID
+      description: Removes a product from the inventory by its unique identifier.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The unique identifier of the product
+          schema:
+            type: string
+      responses:
+        200:
+          description: Product deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Product deleted successfully"
+        404:
+          description: Product not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Product not found"
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Error deleting product"
