@@ -20,6 +20,7 @@ jobs:
           REGISTRATION_DB_URL: ${{ vars.REGISTRATION_DB_URL }}
           LOGIN_DB_URL: ${{ vars.LOGIN_DB_URL }}
           LOGOUT_DB_URL: ${{ vars.LOGOUT_DB_URL }}
+          ADMINSLOG_DB_URL: ${{ vars.ADMINSLOG_DB_URL }}
           JWT_SECRET_KEY: ${{ vars.JWT_SECRET_KEY }}
           JWT_ALGORITHM: ${{ vars.JWT_ALGORITHM }}
           JWT_EXPIRATION_MINUTES: ${{ vars.JWT_EXPIRATION_MINUTES }}
@@ -37,6 +38,7 @@ jobs:
             export REGISTRATION_DB_URL="${REGISTRATION_DB_URL}"
             export LOGIN_DB_URL="${LOGIN_DB_URL}"
             export LOGOUT_DB_URL="${LOGOUT_DB_URL}"
+            export ADMINSLOG_DB_URL="${ADMINSLOG_DB_URL}"
             export JWT_SECRET_KEY="${JWT_SECRET_KEY}"
             export JWT_ALGORITHM="${JWT_ALGORITHM}"
             export JWT_EXPIRATION_MINUTES="${JWT_EXPIRATION_MINUTES}"

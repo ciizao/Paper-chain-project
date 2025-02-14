@@ -38,6 +38,19 @@ services:
     networks:
       - user-network
 
+  adminslog-service:
+    image: ciizao/adminslog-service:latest
+    container_name: adminslog-service
+    ports:
+      - "8009:8009"
+    environment:
+      DATABASE_URL: ${ADMINSLOG_DB_URL}
+      JWT_SECRET: ${JWT_SECRET_KEY}
+      JWT_ALGORITHM: ${JWT_ALGORITHM}
+      JWT_EXPIRATION_MINUTES: ${JWT_EXPIRATION_MINUTES}
+    networks:
+      - user-network
+
 networks:
   user-network:
     driver: bridge
