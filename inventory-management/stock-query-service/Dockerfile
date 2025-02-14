@@ -22,3 +22,4 @@ EXPOSE 8082
 
 CMD ["./stock-query-service"]
 
+
